@@ -15,7 +15,7 @@
         <p>Имя: <span id="name">Name</span></p>
         <p>Фамилия: <span id="surname">Name</span></p>
         <p>Роль: <span id="role">Role</span></p>
-        <button>Мои документы</button>
+        <button onclick="uploadImage()">Мои документы</button>
     </div>
 
 </body>
@@ -32,5 +32,28 @@
         elementName.innerHTML = res.name;
         elementSurname.innerHTML = res.surname;
 
+
     });
+
+    function uploadImage() {
+        var fileInput = document.getElementById('imageInput');
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('ImageFile', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/api/images', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('Image uploaded successfully. Image ID: ' + JSON.parse(xhr.responseText).id);
+            } else {
+                console.error('Error uploading image. Status: ' + xhr.status);
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Error uploading image.');
+        };
+        xhr.send(formData);
+    }
+
 </script>

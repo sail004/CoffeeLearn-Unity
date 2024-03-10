@@ -1,7 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuthExample2.Models
+namespace CoffeeLearnWebApi.Models
 {
     public class Documents
     {

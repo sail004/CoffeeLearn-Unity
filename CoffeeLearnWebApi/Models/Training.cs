@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace AuthExample2.Models
+namespace CoffeeLearnWebApi.Models
 {
     public class Training
     {

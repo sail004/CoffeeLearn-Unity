@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using AuthExample2.Models;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using CoffeeLearnWebApi;
 
-namespace AuthExample2.Controllers
+namespace CoffeeLearnWebApi.Controllers
 {
     public class AccountController : Controller
     {
-        AuthExampleContext authExampleContext = new AuthExampleContext();
+        private readonly CoffeeLearnDbContext _dbContext;
+
+        public AccountController(CoffeeLearnDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         public async Task<IActionResult> Index()
         {
-            var users = await authExampleContext.Users.ToListAsync();
+            var users = await _dbContext.Users.ToListAsync();
             return View(users);
         }
-    
+
 
         [HttpPost("/token")]
         public IActionResult Token(string username, string password)
@@ -53,7 +53,7 @@ namespace AuthExample2.Controllers
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            var person = authExampleContext.Users.FirstOrDefault(x => x.Login == username && x.Password == password);
+            var person = _dbContext.Users.FirstOrDefault(x => x.Login == username && x.Password == password);
             if (person != null)
             {
                 var claims = new List<Claim>
@@ -72,7 +72,7 @@ namespace AuthExample2.Controllers
 
         public async Task<IActionResult> Profile(int id)
         {
-            var user = await authExampleContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();

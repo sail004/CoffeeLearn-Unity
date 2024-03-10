@@ -1,19 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-namespace AuthExample2.Controllers
+
+namespace CoffeeLearnWebApi.Controllers
 
 {
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ProfileController: Controller
+    public class ProfileController : Controller
     {
-        AuthExampleContext authExampleContext = new AuthExampleContext();
+        readonly CoffeeLearnDbContext _dbContext;
+        
+        public ProfileController(CoffeeLearnDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         [Route("get/{login}")]
-        public IActionResult GetLogin([FromRoute]string login)
+        public IActionResult GetLogin([FromRoute] string login)
         {
-            var user = authExampleContext.Users.FirstOrDefault(user => user.Login == login);
+            var user = _dbContext.Users.FirstOrDefault(user => user.Login == login);
             return Ok(user);
         }
 
