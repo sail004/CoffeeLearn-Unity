@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AuthExample2.Models;
+using CoffeeLearnWebApi.Models;
 
 
 namespace AuthExample2
@@ -16,6 +17,7 @@ public class AuthExampleContext : DbContext
        
     public DbSet<UserTrainingDone> UserTrainingsDone { get; set; } = null!;
 
+    public DbSet<DocumentResourses> DocumentResourses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
