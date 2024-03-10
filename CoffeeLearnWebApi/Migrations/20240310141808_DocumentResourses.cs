@@ -6,13 +6,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CoffeeLearnWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class DocumentResourses : Migration
+    public partial class DocumentResoursesMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DocumentResourses",
+                name: "DocumentResoursesMigration",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)

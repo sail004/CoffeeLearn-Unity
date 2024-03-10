@@ -8,6 +8,7 @@ namespace CoffeeLearnWebApi.Models
         public int DocId { get; set; }
         public string DocName { get; set; }
         public string UserLogin { get; set; }
+        public int IdDocumentResourse { get; set; }
         public User User { get; set; }
     }
 }

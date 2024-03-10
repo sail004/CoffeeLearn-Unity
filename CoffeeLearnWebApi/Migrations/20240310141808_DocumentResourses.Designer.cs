@@ -12,7 +12,7 @@ namespace CoffeeLearnWebApi.Migrations
 {
     [DbContext(typeof(CoffeeLearnDbContext))]
     [Migration("20240310141808_DocumentResourses")]
-    partial class DocumentResourses
+    partial class DocumentResoursesMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

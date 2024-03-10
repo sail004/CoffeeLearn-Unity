@@ -3,6 +3,7 @@ using System;
 using CoffeeLearnWebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CoffeeLearnWebApi.Migrations
 {
     [DbContext(typeof(CoffeeLearnDbContext))]
-    partial class AuthExampleContextModelSnapshot : ModelSnapshot
+    [Migration("20240310160005_DucumentResoursesAdjustment")]
+    partial class DucumentResoursesAdjustment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,6 +41,10 @@ namespace CoffeeLearnWebApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("ResourseTypeId")
                         .HasColumnType("integer");
 
@@ -57,9 +64,6 @@ namespace CoffeeLearnWebApi.Migrations
                     b.Property<string>("DocName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("IdDocumentResourse")
-                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");

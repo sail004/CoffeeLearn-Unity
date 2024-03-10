@@ -15,8 +15,11 @@
         <p>Имя: <span id="name">Name</span></p>
         <p>Фамилия: <span id="surname">Name</span></p>
         <p>Роль: <span id="role">Role</span></p>
+        <img src="api/DocumentResourses/1" id="doc"/>
+        <input type="file" id="imageInput">
         <button onclick="uploadImage()">Мои документы</button>
     </div>
+
 
 </body>
 
@@ -33,6 +36,7 @@
         elementSurname.innerHTML = res.surname;
 
 
+
     });
 
     function uploadImage() {
@@ -40,9 +44,12 @@
         var file = fileInput.files[0];
         var formData = new FormData();
         formData.append('ImageFile', file);
-
+        const token = sessionStorage.getItem(tokenKey);
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/images', true);
+        
+        xhr.open('POST', '/api/DocumentResourses/upload', true);
+   //    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+        xhr.setRequestHeader('Authorization', "Bearer " + token);
         xhr.onload = function () {
             if (xhr.status === 200) {
                 console.log('Image uploaded successfully. Image ID: ' + JSON.parse(xhr.responseText).id);
