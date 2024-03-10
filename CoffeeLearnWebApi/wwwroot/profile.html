@@ -1,0 +1,36 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="DataUtils.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+    <link rel="stylesheet" href="profilestyles.css">
+</head>
+<body>
+
+    <div class="profile">
+        <h1>Профиль</h1>
+        <p>Имя: <span id="name">Name</span></p>
+        <p>Фамилия: <span id="surname">Name</span></p>
+        <p>Роль: <span id="role">Role</span></p>
+        <button>Мои документы</button>
+    </div>
+
+</body>
+
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const res = await getData("api/profile/get/" + sessionStorage.getItem(login));
+        var elementRole = document.getElementById("role");
+        var elementName = document.getElementById("name");
+        var elementSurname = document.getElementById("surname");
+
+        elementRole.innerHTML = res.role;
+        elementName.innerHTML = res.name;
+        elementSurname.innerHTML = res.surname;
+
+    });
+</script>

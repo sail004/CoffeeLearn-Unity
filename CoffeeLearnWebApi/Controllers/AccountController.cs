@@ -8,6 +8,7 @@ using System.Security.Claims;
 using AuthExample2.Models;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using CoffeeLearnWebApi;
 
 namespace AuthExample2.Controllers
 {
@@ -38,7 +39,7 @@ namespace AuthExample2.Controllers
                     notBefore: now,
                     claims: identity.Claims,
                     expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication")), SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.KeyString)), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
             var response = new

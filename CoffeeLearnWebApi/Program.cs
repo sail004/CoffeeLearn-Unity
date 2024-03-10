@@ -1,6 +1,8 @@
 using AuthExample2;
+using CoffeeLearnWebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection.Metadata;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +26,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                            ValidateLifetime = true,
 
-                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Secret key for authentication")),
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.KeyString)),
                            ValidateIssuerSigningKey = true,
                        };
                    });
