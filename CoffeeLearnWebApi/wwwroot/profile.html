@@ -15,10 +15,45 @@
         <p>Имя: <span id="name">Name</span></p>
         <p>Фамилия: <span id="surname">Name</span></p>
         <p>Роль: <span id="role">Role</span></p>
-        <img src="api/DocumentResourses/1" id="doc"/>
+
         <input type="file" id="imageInput">
-        <button onclick="uploadImage()">Мои документы</button>
+        <button>Мои документы</button>
     </div>
+
+    <h2>Документы</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Номер документа</th>
+                <th>Тип документа</th>
+                <th>Номер</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button>Изменить</button>
+                    <button>Удалить</button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <button>Изменить</button>
+                    <button>Удалить</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button id="addDocumentBtn" onclick="openDocumentEditPage()">Добавить документ</button>
 
 
 </body>
@@ -30,7 +65,7 @@
         var elementRole = document.getElementById("role");
         var elementName = document.getElementById("name");
         var elementSurname = document.getElementById("surname");
-
+         
         elementRole.innerHTML = res.role;
         elementName.innerHTML = res.name;
         elementSurname.innerHTML = res.surname;
@@ -62,5 +97,7 @@
         };
         xhr.send(formData);
     }
-
+    function openDocumentEditPage() {
+        window.location.href = "documentEditPage.html";
+    }
 </script>

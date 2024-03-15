@@ -13,7 +13,9 @@
     background-color: #f9f9f9;
 }
 
-h1, h2{
+
+h1, h2 {
+    margin: 30px;
     margin-bottom: 10px;
 }
 
@@ -29,3 +31,25 @@ button {
     button:hover {
         background-color: #0056b3;
     }
+
+table {
+    width: 60%;
+    margin: 30px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+#addDocumentBtn {
+    margin-left: 30px;
+    padding: 5px 10px;
+    margin-right: 5px;
+}

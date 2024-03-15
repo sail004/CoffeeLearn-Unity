@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование документа</title>
+    <script src="DataUtils.js"></script>
+    <link rel="stylesheet" href="documentEditStyles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Документ</h1>
+        <h2>Тип</h2>
+        <select id="documentType">
+            <option value="passport">Паспорт</option>
+            <option value="medicalRecord">Медицинская книжка</option>
+        </select>
+        <h2>Номер документа</h2>
+        <input type="text" id="documentNumber">
+        <h2>Фото</h2>
+        <img src="placeholder.jpg" alt="Изображение документа">
+        <div>
+            <input type="file" id="imageInput">
+            <button onclick="uploadImage()">Добавить изображение</button>
+        </div>
+        <button onclick="saveDocument()">Сохранить изображение</button>
+    </div>
+   
+
+    <script>
+        var response = ""
+        function uploadImage() {
+            var fileInput = document.getElementById('imageInput');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('ImageFile', file);
+            var documentType = document.getElementById('documentType').value;
+            var documentNumber = document.getElementById('documentNumber').value;
+            formData.append('DocumentsType', documentType);
+            formData.append('DocumentNumber', documentNumber);
+            const token = sessionStorage.getItem(tokenKey);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/api/DocumentResourses/upload', true);
+            //    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    response = JSON.parse(xhr.responseText).id
+                    console.log('Image uploaded successfully. Image ID: ' + JSON.parse(xhr.responseText).id);
+                } else {
+                    console.error('Error uploading image. Status: ' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                console.error('Error uploading image.');
+            };
+            xhr.send(formData);
+        }
+        function saveDocument() {
+            var formData = new FormData();
+            var documentType = document.getElementById('documentType').value;
+            var userLogin = sessionStorage.getItem(login);
+            formData.append("UserLogin", userLogin);
+            formData.append("DocumentType", documentType);
+            formData.append("IdDocumentResourse", response)
+            const token = sessionStorage.getItem(tokenKey);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/api/Document/addDocument', true);
+            xhr.setRequestHeader('Authorization', "Bearer " + token);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('Image uploaded successfully. Image ID: ');
+                } else {
+                    console.error('Error uploading image. Status: ' + xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                console.error('Error uploading image.');
+            };
+            xhr.send(formData);
+
+
+        }
+
+    </script>
+</body>
+</html>

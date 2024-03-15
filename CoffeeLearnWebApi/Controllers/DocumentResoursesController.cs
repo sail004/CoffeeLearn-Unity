@@ -8,7 +8,7 @@ using System;
 
 namespace CoffeeLearnWebApi.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class DocumentResoursesController: Controller
@@ -19,7 +19,6 @@ namespace CoffeeLearnWebApi.Controllers
         {
             _dbContext = dbContext;
         }
-        
         [Authorize]
         [HttpPost]
         [Route("upload")]
@@ -28,6 +27,12 @@ namespace CoffeeLearnWebApi.Controllers
             if (model == null || model.ImageFile == null || model.ImageFile.Length == 0)
                 return BadRequest("Invalid image");
 
+            Dictionary<string, int> documentTypes = new Dictionary<string, int>();
+
+            documentTypes["passport"] = 1;
+            documentTypes["medicalRecord"] = 2;
+            documentTypes["document"] = 3;
+
             using (var memoryStream = new MemoryStream())
             {
                 await model.ImageFile.CopyToAsync(memoryStream);
@@ -35,8 +40,7 @@ namespace CoffeeLearnWebApi.Controllers
                 {
                     FileName = model.ImageFile.FileName,
                     Data = memoryStream.ToArray(),
-                    ResourseTypeId = 1,
-                    Id = 1
+                    ResourseTypeId = documentTypes[model.DocumentsType],
                 };
 
                 _dbContext.DocumentResourses.Add(image);

@@ -16,6 +16,20 @@ namespace CoffeeLearnWebApi.Migrations
                 type: "integer",
                 nullable: false,
                 defaultValue: 0);
+
+            migrationBuilder.RenameColumn(
+                name: "UserLogin",
+                table: "Documents",
+                newName: "UserId");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "UserId",
+                table: "Documents",
+                type: "int",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
         }
 
         /// <inheritdoc />
@@ -24,6 +38,19 @@ namespace CoffeeLearnWebApi.Migrations
             migrationBuilder.DropColumn(
                 name: "IdDocumentResourse",
                 table: "Documents");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "UserId",
+                table: "Documents",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.RenameColumn(
+                name: "UserId",
+                table: "Documents",
+                newName: "UserLogin");
         }
     }
 }

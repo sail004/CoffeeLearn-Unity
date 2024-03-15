@@ -22,21 +22,26 @@
         async function getTokenAsync() {
 
             const formData = new FormData();
+            
             formData.append("grant_type", "password");
             formData.append("username", document.getElementById("emailLogin").value);
             formData.append("password", document.getElementById("passwordLogin").value);
+
+
 
             const response = await fetch("/token", {
                 method: "POST",
                 headers: { "Accept": "application/json" },
                 body: formData
             });
+
             const data = await response.json();
 
             if (response.ok === true) {
-
                 sessionStorage.setItem(tokenKey, data.access_token);
                 sessionStorage.setItem(login, data.username);
+                //const userData = await getData("api/profile/get/" + document.getElementById("emailLogin").value);
+                //sessionStorage.setItem("id", userData.Id);
                 console.log(data.access_token);
 
                 window.location.href = "mainpage.html";
