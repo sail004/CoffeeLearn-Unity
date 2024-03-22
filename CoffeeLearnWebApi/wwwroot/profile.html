@@ -16,42 +16,11 @@
         <p>Фамилия: <span id="surname">Name</span></p>
         <p>Роль: <span id="role">Role</span></p>
 
-        <input type="file" id="imageInput">
-        <button>Мои документы</button>
     </div>
 
     <h2>Документы</h2>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Номер документа</th>
-                <th>Тип документа</th>
-                <th>Номер</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <button>Изменить</button>
-                    <button>Удалить</button>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <button>Изменить</button>
-                    <button>Удалить</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="tableContainer"></div>
 
     <button id="addDocumentBtn" onclick="openDocumentEditPage()">Добавить документ</button>
 
@@ -60,11 +29,74 @@
 
 </html>
 <script>
+        async function buildTable() {
+        const data = await getData("api/Document/getDocument/" + sessionStorage.getItem(login));
+        var table = document.createElement('table');
+        var thead = document.createElement('thead');
+        var tbody = document.createElement('tbody');
+
+        var headers = ['Номер документа', 'Тип документа', 'Номер', 'Действия'];
+        var headerRow = document.createElement('tr');
+        headers.forEach(function (headerText) {
+            var th = document.createElement('th');
+            th.appendChild(document.createTextNode(headerText));
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        data.forEach(function (item) {
+            var row = document.createElement('tr');
+            var id = 'row_' + item.DocId;
+
+            var idCell = document.createElement('td');
+            idCell.appendChild(document.createTextNode(item.docId));
+            row.appendChild(idCell);
+
+            var typeCell = document.createElement('td');
+            typeCell.appendChild(document.createTextNode(item.docName));
+            row.appendChild(typeCell);
+
+            var numberCell = document.createElement('td');
+            numberCell.appendChild(document.createTextNode(item.documentNumber));
+            row.appendChild(numberCell);
+
+            var actionsCell = document.createElement('td');
+            var editIcon = document.createElement('img');
+            editIcon.src = 'img/alter.png';
+            editIcon.alt = 'Изменить';
+            editIcon.classList.add('action-icon');
+            editIcon.setAttribute('data-action', 'edit');
+            editIcon.setAttribute('data-id', item.docId.toString());
+            actionsCell.appendChild(editIcon);
+
+            var deleteIcon = document.createElement('img');
+            deleteIcon.src = 'img/delete.png';
+            deleteIcon.alt = 'Удалить';
+            deleteIcon.classList.add('action-icon');
+            deleteIcon.setAttribute('data-action', 'delete');
+            deleteIcon.setAttribute('data-id', item.docId.toString());
+            actionsCell.appendChild(deleteIcon);
+            row.appendChild(actionsCell);
+            row.id = id;
+            tbody.appendChild(row);
+            console.log("editIcon data-id:", editIcon.getAttribute('data-id'));
+            console.log("deleteIcon data-id:", deleteIcon.getAttribute('data-id'));
+
+        });
+        
+        table.appendChild(tbody);
+
+        var tableContainer = document.getElementById('tableContainer');
+        tableContainer.appendChild(table);
+    }
+
     document.addEventListener("DOMContentLoaded", async function () {
         const res = await getData("api/profile/get/" + sessionStorage.getItem(login));
         var elementRole = document.getElementById("role");
         var elementName = document.getElementById("name");
         var elementSurname = document.getElementById("surname");
+        await buildTable();
          
         elementRole.innerHTML = res.role;
         elementName.innerHTML = res.name;
@@ -74,30 +106,43 @@
 
     });
 
-    function uploadImage() {
-        var fileInput = document.getElementById('imageInput');
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('ImageFile', file);
-        const token = sessionStorage.getItem(tokenKey);
-        var xhr = new XMLHttpRequest();
-        
-        xhr.open('POST', '/api/DocumentResourses/upload', true);
-   //    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        xhr.setRequestHeader('Authorization', "Bearer " + token);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                console.log('Image uploaded successfully. Image ID: ' + JSON.parse(xhr.responseText).id);
-            } else {
-                console.error('Error uploading image. Status: ' + xhr.status);
-            }
-        };
-        xhr.onerror = function () {
-            console.error('Error uploading image.');
-        };
-        xhr.send(formData);
-    }
     function openDocumentEditPage() {
         window.location.href = "documentEditPage.html";
     }
+
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('action-icon')) {
+            var action = event.target.getAttribute('data-action');
+            var id = event.target.getAttribute('data-id');
+
+            if (action === 'edit') {
+                window.location.href = 'documentEditPage.html?id=' + id;
+            } else if (action === 'delete') {
+                if (confirm('Вы уверены, что хотите удалить этот документ?')) {
+                    deleteDocument(id);
+                }
+            }
+        }
+    });
+
+    async function deleteDocument(id) {
+        try {
+            const response = await fetch('api/Document/deleteDocument/' + id, {
+                
+                method: 'DELETE',
+                headers: {
+                   "Authorization": "Bearer " + sessionStorage.getItem("accessToken")
+                }
+            });
+            if (response.ok) {
+                console.log('Документ успешно удален.');
+                location.reload();
+            } else {
+                console.error('Произошла ошибка при удалении документа.');
+            }
+        } catch (error) {
+            console.error('Произошла ошибка при удалении документа:', error);
+        }
+    }
+
 </script>

@@ -11,9 +11,14 @@ namespace CoffeeLearnWebApi
 
         public DbSet<Role> Roles { get; set; } = null!;
 
-        public DbSet<Training> Trainings { get; set; } = null!;
+        public DbSet<Courses> Courses { get; set; } = null!;
 
-        public DbSet<UserTrainingDone> UserTrainingsDone { get; set; } = null!;
+        public DbSet<Progress> Progress { get; set; } = null!;
+
+        public DbSet<CourseStructure> CourseStructures { get; set; } = null!;
+
+        public DbSet<Lecture> Lecture { get; set; }
+        public DbSet<PracticeTest> practiceTests { get; set; } = null!;
 
         public DbSet<DocumentResourses> DocumentResourses { get; set; } = null!;
 

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование документа</title>
+    <script src="DataUtils.js"></script>
+    <link rel="stylesheet" href="CoursesStyles.css">
+</head>
+<body>
+    <h1></h1>
+</body>
+</html>
+<script>
+    async function fillCourseStructure() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('id');
+
+            const courseData = await getData('api/Courses/getOneCourse/' + courseId);
+            const courseTitle = courseData.name;
+
+            document.querySelector('h1').textContent = courseTitle;
+
+            const courseStructures = await getData('api/CourseStructure/getCourseStructure/' + courseId);
+
+            for (const structure of courseStructures) {
+                const structureTitle = document.createElement('h2');
+                structureTitle.textContent = structure.name;
+                document.body.appendChild(structureTitle);
+
+                const lectures = await getData('api/Lecture/getLecture/'+ structure.id.toString());
+                for (const lecture of lectures) {
+                    const lectureElement = document.createElement('p');
+                    lectureElement.textContent = lecture.name;
+                    document.body.appendChild(lectureElement);
+                }
+
+                const tests = await getData('api/PracticeTest/getTest/' + structure.id.toString());
+                for (const test of tests) {
+                    const testElement = document.createElement('p');
+                    testElement.textContent = test.name;
+                    document.body.appendChild(testElement);
+                }
+            }
+        } catch (error) {
+            console.error('Error filling course structure:', error);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', fillCourseStructure);
+
+
+</script>

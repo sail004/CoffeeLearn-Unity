@@ -11,6 +11,7 @@
 }
 
 .profile-icon {
+    width:80px;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -43,4 +44,37 @@
 
 .profile-div {
     display: block;
+}
+
+.plateContainer {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.course-tile {
+    padding: 3px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+    .course-tile p {
+        margin: 0;
+        font-size: 18px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+a {
+    text-decoration: none;
+    color: inherit;
 }

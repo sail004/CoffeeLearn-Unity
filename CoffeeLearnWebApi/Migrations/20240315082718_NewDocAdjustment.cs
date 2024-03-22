@@ -18,9 +18,7 @@ namespace CoffeeLearnWebApi.Migrations
                 name: "IX_Documents_UserId",
                 table: "Documents");
 
-            migrationBuilder.DropColumn(
-                name: "UserLogin",
-                table: "Documents");
+           
         }
 
         /// <inheritdoc />

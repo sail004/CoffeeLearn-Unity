@@ -18,7 +18,9 @@
         <h2>Номер документа</h2>
         <input type="text" id="documentNumber">
         <h2>Фото</h2>
-        <img src="placeholder.jpg" alt="Изображение документа">
+        <div id="imageContainer">
+            <!-- Это место для отображения изображения -->
+        </div>
         <div>
             <input type="file" id="imageInput">
             <button onclick="uploadImage()">Добавить изображение</button>
@@ -28,26 +30,49 @@
    
 
     <script>
-        var response = ""
+        document.addEventListener("DOMContentLoaded", async function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const documentId = urlParams.get('id');
+            var imageContainer = document.getElementById("imageContainer");
+            if (documentId) {
+                try {
+                    const documentData = await getData("api/Document/getOneDocument/" + documentId);
+                    document.getElementById('documentType').value = documentData.docName;
+                    document.getElementById('documentNumber').value = documentData.documentNumber;
+                    var image = document.createElement("img");
+                    image.src = "api/DocumentResourses/" + documentData.idDocumentResourse.toString();
+                    imageContainer.appendChild(image);
+                } catch (error) {
+                    console.error('Произошла ошибка при загрузке данных о документе:', error);
+                }
+            }
+        });
+
+        var imageId = ""
         function uploadImage() {
+
             var fileInput = document.getElementById('imageInput');
             var file = fileInput.files[0];
             var formData = new FormData();
             formData.append('ImageFile', file);
             var documentType = document.getElementById('documentType').value;
-            var documentNumber = document.getElementById('documentNumber').value;
+           
             formData.append('DocumentsType', documentType);
-            formData.append('DocumentNumber', documentNumber);
+            
             const token = sessionStorage.getItem(tokenKey);
+            var imageContainer = document.getElementById("imageContainer");
             var xhr = new XMLHttpRequest();
 
             xhr.open('POST', '/api/DocumentResourses/upload', true);
-            //    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
             xhr.setRequestHeader('Authorization', "Bearer " + token);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    response = JSON.parse(xhr.responseText).id
-                    console.log('Image uploaded successfully. Image ID: ' + JSON.parse(xhr.responseText).id);
+                    imageId = JSON.parse(xhr.responseText).id
+                    console.log('Image uploaded successfully. Image ID: ' + imageId);
+                    var image = document.createElement("img");
+
+                    image.src = "api/DocumentResourses/" + imageId;
+                    imageContainer.appendChild(image);
                 } else {
                     console.error('Error uploading image. Status: ' + xhr.status);
                 }
@@ -57,32 +82,37 @@
             };
             xhr.send(formData);
         }
-        function saveDocument() {
+        async function saveDocument() {
             var formData = new FormData();
             var documentType = document.getElementById('documentType').value;
+            var documentNumber = document.getElementById('documentNumber').value;
             var userLogin = sessionStorage.getItem(login);
             formData.append("UserLogin", userLogin);
             formData.append("DocumentType", documentType);
-            formData.append("IdDocumentResourse", response)
+            formData.append('DocumentNumber', documentNumber);
+            formData.append("IdDocumentResourse", imageId);
             const token = sessionStorage.getItem(tokenKey);
-            var xhr = new XMLHttpRequest();
-
-            xhr.open('POST', '/api/Document/addDocument', true);
-            xhr.setRequestHeader('Authorization', "Bearer " + token);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    console.log('Image uploaded successfully. Image ID: ');
-                } else {
-                    console.error('Error uploading image. Status: ' + xhr.status);
-                }
-            };
-            xhr.onerror = function () {
-                console.error('Error uploading image.');
-            };
-            xhr.send(formData);
+          
+            const methodResponse = await fetch("/api/Document/addDocument", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: formData
+            });
+            if (methodResponse.ok === true) {
+                window.location.href = "profile.html";
+                console.log('Image uploaded successfully. Image ID: ');
+             
 
 
-        }
+            }
+            else {
+                console.log("Error: ", methodResponse.status);
+            }
+        };
+        
 
     </script>
 </body>

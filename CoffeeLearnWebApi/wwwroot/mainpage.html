@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Страница тренингов</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="DataUtils.js"></script>
 </head>
 <body>
     <div class="container">
@@ -12,21 +13,73 @@
             <a href="profile.html">
                 <img src="img/profile.png" alt="Профиль" class="profile-icon">
             </a>
-            <p>Профиль</p>
         </div>
-            <h1 class="training-title">Тренинги</h1>
-            <div class="btn-group">
-                <button class="btn">Лекции</button>
-                <button class="btn">Тесты</button>
-                <button class="btn">Курсы</button>
+        <h1 class="training-title">Курсы</h1>
+        <div class="plateContainer">
+            <h1>Базовые курсы</h1>
+            <div class="course-tile" id="basic-courses">
             </div>
 
-            <h1 class="statistics-title">Статистика</h1>
-            <div class="btn-group">
-                <button class="btn">Личная</button>
-                <button class="btn">Менеджеров</button>
-                <button class="btn">Управляющих</button>
-            </div>
-</div>
+            <h1>Дополнительные курсы</h1>
+            <div class="course-tile" id="advance-courses"></div>
+        </div>
+
+        <h1 class="statistics-title">Статистика</h1>
+        <div class="btn-group">
+            <button class="btn">Личная</button>
+            <button class="btn">Менеджеров</button>
+            <button class="btn">Управляющих</button>
+        </div>
+    </div>
 </body>
 </html>
+
+<script>
+
+   
+    async function fillBasicCoursesData() {
+        const courses = await getData('api/Courses/getCourse');
+        const container = document.getElementById("basic-courses");
+        const basicCourses = courses.filter(course => course.type === 'basic');
+        basicCourses.forEach(course => {
+            const courseLink = document.createElement('a');
+            courseLink.href = `CourseStructure.html?id=${course.id}`;
+
+            const courseTile = document.createElement('div');
+            courseTile.classList.add('course-tile');
+
+            const courseBasicTitle = document.createElement('p');
+            courseBasicTitle.textContent = course.name;
+
+            courseTile.appendChild(courseBasicTitle);
+            courseLink.appendChild(courseTile);
+            container.appendChild(courseLink);
+        });
+    }
+
+    async function fillAdvanceCoursesData() {
+        const courses = await getData('api/Courses/getCourse');
+        const container = document.getElementById("advance-courses");
+        const basicCourses = courses.filter(course => course.type === 'advance');
+        basicCourses.forEach(course => {
+            const courseLink = document.createElement('a');
+            courseLink.href = `CourseStructure.html?id=${course.id}`;
+
+            const courseTile = document.createElement('div');
+            courseTile.classList.add('course-tile');
+
+            const courseTitle = document.createElement('p');
+            courseTitle.textContent = course.name;
+
+            courseTile.appendChild(courseTitle);
+            courseLink.appendChild(courseTile);
+            container.appendChild(courseLink);
+        });
+
+    }
+    document.addEventListener('DOMContentLoaded', async function (){
+        await fillBasicCoursesData();
+        await fillAdvanceCoursesData();
+    });
+
+</script>

@@ -3,6 +3,7 @@ using System;
 using CoffeeLearnWebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CoffeeLearnWebApi.Migrations
 {
     [DbContext(typeof(CoffeeLearnDbContext))]
-    partial class AuthExampleContextModelSnapshot : ModelSnapshot
+    [Migration("20240319111023_UserIdDelete")]
+    partial class UserIdDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,10 +36,6 @@ namespace CoffeeLearnWebApi.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("CourseStructures");
@@ -53,6 +52,9 @@ namespace CoffeeLearnWebApi.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("StructureId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .IsRequired()

@@ -53,3 +53,9 @@ th {
     padding: 5px 10px;
     margin-right: 5px;
 }
+
+.action-icon {
+    width: 25px; /* Ширина изображения */
+    height: 25px; /* Высота изображения */
+    margin:5px;
+}
