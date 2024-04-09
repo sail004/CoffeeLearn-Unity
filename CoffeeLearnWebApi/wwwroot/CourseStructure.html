@@ -31,16 +31,22 @@
 
                 const lectures = await getData('api/Lecture/getLecture/'+ structure.id.toString());
                 for (const lecture of lectures) {
+                    const lectureLink = document.createElement('a');
+                    lectureLink.href = 'LectureContent.html?id=' + lecture.id;
                     const lectureElement = document.createElement('p');
                     lectureElement.textContent = lecture.name;
-                    document.body.appendChild(lectureElement);
+                    lectureLink.appendChild(lectureElement);
+                    document.body.appendChild(lectureLink);
                 }
 
                 const tests = await getData('api/PracticeTest/getTest/' + structure.id.toString());
                 for (const test of tests) {
+                    const testLink = document.createElement('a');
+                    testLink.href = 'TestContent.html?id=' + test.id;
                     const testElement = document.createElement('p');
                     testElement.textContent = test.name;
-                    document.body.appendChild(testElement);
+                    testLink.appendChild(testElement);
+                    document.body.appendChild(testLink);
                 }
             }
         } catch (error) {

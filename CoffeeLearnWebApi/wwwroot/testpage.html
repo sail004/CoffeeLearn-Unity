@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert HTML into Body</title>
+</head>
+<body>
+    <div id="myDiv"></div>
+    <script>
+        // Получение HTML-кода из базы данных (здесь просто пример)
+        var htmlFromDatabase = "<h1>Hello, world!</h1><p>This is some HTML content from the database.</p>";
+
+        // Находим элемент, в который мы хотим вставить HTML
+        var targetElement = document.getElementById('myDiv');
+
+        // Вставляем HTML-код внутрь элемента
+        targetElement.innerHTML = htmlFromDatabase;
+    </script>
+</body>
+</html>

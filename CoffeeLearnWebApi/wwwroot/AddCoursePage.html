@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Структура образовательного курса</title>
+<script src="DataUtils.js"></script>
+<script src="CoursePageScript.js"></script>
+</head>
+<body>
+
+<h1>Структура образовательного курса</h1>
+
+<form id="courseForm">
+    <label for="courseName">Название курса:</label>
+    <input type="text" id="courseName" name="courseName" required><br><br>
+
+    <div id="topics">
+        <div class="topic">
+            <label for="topic1">Название первой темы:</label>
+            <input type="text" id="topic1" name="topic[]" required><br>
+
+            <div class="content">
+                <label for="content1">Content:</label>
+                <textarea id="content1" name="content[]" required></textarea><br>
+                <button type="button" class="addLecture">Добавить лекцию</button>
+                <button type="button" class="addTest">Добавить тест</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <button type="button" id="addTopic">Добавить тему</button><br><br>
+
+    <button type="submit">Сохранить</button>
+</form>
+</body>
+</html>

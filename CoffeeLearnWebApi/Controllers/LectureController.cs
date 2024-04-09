@@ -21,5 +21,14 @@ namespace CoffeeLearnWebApi.Controllers
 
             return Ok(lecture);
         }
+
+        [Route("getLectureContent/{lectureId}")]
+        public IActionResult GetLectureContent(int lectureId)
+        {
+            var lecture = _dbContext.Lecture.FirstOrDefault(lect => lect.Id == lectureId);
+
+            return Ok(lecture.Content);
+        }
     }
+
 }

@@ -17,18 +17,19 @@
         <h1 class="training-title">Курсы</h1>
         <div class="plateContainer">
             <h1>Базовые курсы</h1>
-            <div class="course-tile" id="basic-courses">
+            <div class="course-tile" id="basic-courses">            
             </div>
 
             <h1>Дополнительные курсы</h1>
-            <div class="course-tile" id="advance-courses"></div>
+            <div class="course-tile" id="advance-courses">
+            </div>
         </div>
 
         <h1 class="statistics-title">Статистика</h1>
-        <div class="btn-group">
-            <button class="btn">Личная</button>
-            <button class="btn">Менеджеров</button>
-            <button class="btn">Управляющих</button>
+        <div class="plateContainer">
+            <div class="course-tile">
+                <p>Личная</p>
+            </div>
         </div>
     </div>
 </body>
@@ -55,6 +56,28 @@
             courseLink.appendChild(courseTile);
             container.appendChild(courseLink);
         });
+        const addCourseTile = document.createElement('div');
+        addCourseTile.classList.add('add-tile');
+        addCourseTile.style.display = 'none';
+        addCourseTile.id = 'addBasicTile';
+
+        const addIcon = document.createElement('img');
+        addIcon.src = 'img/AddIcon.png';
+        addIcon.width = '50';
+        addIcon.height = '50';
+
+        const courseTitle = document.createElement('p');
+
+        const link = document.createElement('a');
+        link.href = 'AddCoursePage.html?type=basic';
+        link.appendChild(addIcon);
+
+        courseTitle.appendChild(link);
+
+        addCourseTile.appendChild(courseTitle);
+        container.appendChild(addCourseTile);
+
+
     }
 
     async function fillAdvanceCoursesData() {
@@ -75,11 +98,40 @@
             courseLink.appendChild(courseTile);
             container.appendChild(courseLink);
         });
+        const addCourseTile = document.createElement('div');
+        addCourseTile.classList.add('add-tile');
+        addCourseTile.style.display = 'none';
+        addCourseTile.id = 'addAdvanceTile';
+
+        const addIcon = document.createElement('img');
+        addIcon.src = 'img/AddIcon.png';
+        addIcon.width = '50';
+        addIcon.height = '50';
+
+        const courseTitle = document.createElement('p');
+
+        const link = document.createElement('a');
+        link.href = 'AddCoursePage.html?type=advance'; 
+        link.appendChild(addIcon);
+
+        courseTitle.appendChild(link);
+
+        addCourseTile.appendChild(courseTitle);
+        container.appendChild(addCourseTile);
 
     }
     document.addEventListener('DOMContentLoaded', async function (){
         await fillBasicCoursesData();
         await fillAdvanceCoursesData();
+        const userData = await getData("api/profile/get/" + sessionStorage.getItem(login));
+        if (userData.role == "Менеджер по персоналу") {
+            addBasicTile.style.display = 'block';
+            addAdvanceTile.style.display = 'block';
+
+        } else {
+            addBasicTile.style.display = 'none';
+            addAdvanceTile.style.display = 'none';
+        }
     });
 
 </script>

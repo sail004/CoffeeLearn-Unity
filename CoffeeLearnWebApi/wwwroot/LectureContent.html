@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="DataUtils.js"></script>
+</head>
+<body>
+    <div id="page"></div>
+</body>
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", async function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const LectureId = urlParams.get('id');
+        const content = await getData('api/Lecture/getLectureContent/' + LectureId)
+        document.getElementById('page').innerHTML = content;
+    });
+</script>

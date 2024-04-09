@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>JWT в ASP.NET Core Web API</title>
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="registrationStyles.css">
     <script src="DataUtils.js"></script>
 </head>
 <body>
@@ -40,8 +41,6 @@
             if (response.ok === true) {
                 sessionStorage.setItem(tokenKey, data.access_token);
                 sessionStorage.setItem(login, data.username);
-                //const userData = await getData("api/profile/get/" + document.getElementById("emailLogin").value);
-                //sessionStorage.setItem("id", userData.Id);
                 console.log(data.access_token);
 
                 window.location.href = "mainpage.html";

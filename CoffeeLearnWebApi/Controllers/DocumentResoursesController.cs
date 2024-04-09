@@ -29,8 +29,8 @@ namespace CoffeeLearnWebApi.Controllers
 
             Dictionary<string, int> documentTypes = new Dictionary<string, int>();
 
-            documentTypes["passport"] = 1;
-            documentTypes["medicalRecord"] = 2;
+            documentTypes["Паспорт"] = 1;
+            documentTypes["Медицинская книжка"] = 2;
             documentTypes["document"] = 3;
 
             using (var memoryStream = new MemoryStream())
